@@ -1,103 +1,172 @@
 package series.serie1;
 
-
 import java.io.IOException;
 import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.NoSuchElementException;
 
-public class Heap<E> { // MaxHeap
+public abstract class Heap<E> {
 
-    private Comparator<E> cmp;
-    private E[] heap;
-    private int size;
+    public LinkedList<E> heap;
+    public Comparator<E> cmp;
 
     public Heap(Comparator<E> cmp) {
-        heap = (E[]) new Object();
-        size = 0;
+        this.heap = new LinkedList<E>();
         this.cmp = cmp;
     }
 
-    public E peek() {   // obtem o elemento mais prioritario
-        if (size == 0) throw new NoSuchElementException();
-        return heap[0];
-    }
-
-//    public void offer(E e) {    // insere um elemento novo a fila prioritaria
-//        if (size >= heap.length) increaseCapacity();
-//        heap[size++] = e;
-//        increaseKey(size - 1);
-//    }
-
-//    public E poll() {    // obtem e remove o elemento mais prioritario
-//        E toReturn = heap[0];
-//        heap[0] = heap[--size];
-//        maxHeapify();       // indice que falha
-//    }
-
-//    public void update(int id) { // actualiza a prioridade de um elemento na fila prioritaria
-//        int idx;
-//        update1(idx);
-//    }
-
-    // o heap eh um maxHeap exepto na posicao i (n: num de elementos, i: posicao)
-//    public void maxHeapify(int n, int i) {
-//        int r = right(i), l = left(i), x = i;
-//        if (l < n && heap[l] > heap[i]) x = l;
-//        if (r < n && heap[r] > heap[x]) x = r;
-//        if (n != i) {
-//            exch(i, x);
-//            maxHeapify(n, x);
-//        }
-//    }
-
-//    public void buildMaxHeap(int n) {
-//        int pai = parent(n - 1);
-//        while (pai >= 0) {
-//            maxHeapify(n, pai);
-//            pai--;
-//        }
-//    }
-
-//    public void heapSort(E[] arr, int n) {
-//        buildMaxHeap(n);
-//        int sortedPos = n - 1;
-//        while (sortedPos > 0) {
-//            exch(sortedPos, );  //see
-//            maxHeapify(--sortedPos, 0);
-//        }
-//    }
-
-
-    // private methods --------------------------------------------------------
-
-    private void increaseKey(int i) {
-        while (i > 0 && cmp.compare(heap[i], heap[parent(i)]) > 0) {
-            int j = parent(i);
-            exch(i, j);
-            i = j;
+    // operations
+    public void buildHeap(int n) {
+        int parent = parent(n);
+        while (parent >= 0) {
+            this.heapify(parent--, heap.size());
         }
     }
 
-    private int parent(int i) {
-        return (i - 1) / 2;
+    public Heap<E> heapSort() { // ordena o conjunto
+        int sortedPos = heap.size()-1;
+        while (sortedPos > 0) {
+            exchange(0, sortedPos);
+            heapify(0, sortedPos--);
+        }
+        return this;
     }
 
-    private void exch(int i, int j) {
-        E aux = heap[i];
-        heap[j] = heap[i];
-        heap[i] = aux;
+    public E peek() throws NoSuchElementException { // obtem o elemento mais prioritario -> O(1)
+        if (heap.size() == 0) throw new NoSuchElementException("no such element");
+        return heap.peek();
     }
 
-//    private void update1(int index) {
-//        if (index == 0 || cmp.compare(heap[index], heap[parent(index)]) < 0)
-//            maxHeapify(index, cmp);
-//        else
-//            increaseKey(index);
+    public void offer(E e) { // insere um elemento novo ao heap -> O(logN)
+        this.heap.addFirst(e);
+        this.heapify(0, heap.size());
+    }
+
+    public E poll() { // obtem e remove o elemento mais prioritario -> O(logN)
+        E toReturn = heap.pollFirst();
+        this.buildHeap(heap.size() - 1);
+        return toReturn;
+    }
+
+//    public void update(int n) { // actualiza a prioridade de um elemento na fila prioritaria -> O(logN)
+//        int idx =
 //    }
 
 
+    // to implement
+    abstract public Heap<E> heapify(int i, int n);
+
+    //abstract public void buildHeap(int n);
+
+    // protected methods
+    protected int parent(int i) { // i element position
+        return (i - 1) >> 1;
+    }
+
+    protected int left(int i) {
+        return (i << 1) + 1;
+    }
+
+    protected int right(int i) {
+        return (i << 1) + 2;
+    }
+
+    protected int size() {
+        return heap.size();
+    }
+
+    protected void exchange(int i, int j) {
+        E aux = heap.get(i);
+        heap.set(i, heap.get(j));
+        heap.set(j, aux);
+    }
+
+    public E[] asArray(){
+        //return (E[]) this.heap.toArray();
+        return (E[]) this.heap.toArray();
+    }
+
+    @Override
+    public String toString() {
+        return "Heap{" + "heap=" + heap + '}';
+    }
+
+
+    // Max Heap implementation -----------------------------------------------------------------------------------------
+    public static class MaxHeap<E> extends Heap<E> { // utilizado no heapSort
+        public MaxHeap(Comparator<E> cmp) {
+            super(cmp);
+        }
+
+        // i: element index n: how deep
+        public MaxHeap<E> heapify(int i, int n) { // maxHeapify
+            int r = right(i), l = left(i), largest = i;
+            if (l < n && cmp.compare(heap.get(l), heap.get(i)) > 0) largest = l;
+            if (r < n && cmp.compare(heap.get(r), heap.get(largest)) > 0) largest = r;
+            if (largest != i) {
+                exchange(i, largest);
+                this.heapify(largest, n);
+            }
+            return this;
+        }
+    }
+
+    // Min Heap Implementation -----------------------------------------------------------------------------------------
+    public static class MinHeap<E> extends Heap<E> {
+        public MinHeap(Comparator cmp) {
+            super(cmp);
+        }
+
+        public MinHeap<E> heapify(int i, int n) {
+            int r = right(i), l = left(i), smallest = i;
+            if (l < n && cmp.compare(heap.get(l), heap.get(i)) < 0) smallest = l;
+            if (r < n && cmp.compare(heap.get(r), heap.get(smallest)) < 0) smallest = r;
+            if (smallest != i) {
+                exchange(i, smallest);
+                this.heapify(smallest, n);
+            }
+            return this;
+        }
+    }
+
+    // testing subject -------------------------------------------------------------------------------------------------
     public static void main(String[] args) throws IOException {
-        
+
+        Comparator<Integer> cmp = (o1, o2) -> Integer.compare(o1, o2);
+
+        //Heap<int> myHeap = new Heap.MinHeap(cmp);
+
+        System.out.println("> running.... ");
+
+        //MinHeap myHeap = new MinHeap(cmp);
+        MaxHeap myHeap = new MaxHeap(cmp);
+
+        myHeap.offer(5);
+        myHeap.offer(1);
+        myHeap.offer(3);
+        myHeap.offer(8);
+        myHeap.offer(12);
+        myHeap.offer(20);
+        myHeap.offer(15);
+        myHeap.offer(7);
+        myHeap.offer(2);
+        myHeap.offer(6);
+
+        System.out.println(myHeap.peek());
+        //System.out.println(myHeap.toString());
+        //myHeap.buildHeap(myHeap.size()-1);
+        System.out.println(myHeap.toString());
+        System.out.println("removed: " + myHeap.poll().toString());
+        System.out.println(myHeap.toString());
+        System.out.println("removed: " + myHeap.poll().toString());
+        System.out.println(myHeap.toString());
+        System.out.println("removed: " + myHeap.poll().toString());
+        System.out.println(myHeap.toString());
+        System.out.println(myHeap.peek());
+        System.out.println("---");
+        myHeap.heapSort();
+        System.out.println(">" + myHeap.toString());
+
     }
 
 }

@@ -5,7 +5,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class IncMedian {
+public class IncMedian_v0 {
 
     public static int[] data = new int[0];
 

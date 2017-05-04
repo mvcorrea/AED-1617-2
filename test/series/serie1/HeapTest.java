@@ -1,7 +1,5 @@
 package series.serie1;
 
-import static java.util.Arrays.asList;
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -10,8 +8,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Comparator;
 import java.util.NoSuchElementException;
-import java.util.LinkedList;
-
 
 public class HeapTest {
 

@@ -24,7 +24,7 @@ public abstract class Heap<E> {
     }
 
     public Heap<E> heapSort() { // ordena o conjunto
-        int sortedPos = heap.size()-1;
+        int sortedPos = heap.size() - 1;
         while (sortedPos > 0) {
             exchange(0, sortedPos);
             heapify(0, sortedPos--);
@@ -81,7 +81,7 @@ public abstract class Heap<E> {
         heap.set(j, aux);
     }
 
-    public E[] asArray(){
+    public E[] asArray() {
         //return (E[]) this.heap.toArray();
         return (E[]) this.heap.toArray();
     }
@@ -109,6 +109,26 @@ public abstract class Heap<E> {
             }
             return this;
         }
+
+        public void increaseKey(int i) { // bubbleUP element in the heap
+            E actual = heap.get(i);
+            E parent = heap.get(parent(i));
+            while (i > 0 && cmp.compare(actual, parent) > 0) {
+                int parentIdx = parent(i);
+                exchange(i, parentIdx);
+                i = parentIdx;
+            }
+        }
+
+        // TODO: build increasekey and update (priority key)
+        public void update(int idx, E e) { // idx:
+            if (cmp.compare(heap.get(idx), e) > 0) { //
+                //increaseKey();
+            }else{
+                //heapify()
+            }
+        }
+
     }
 
     // Min Heap Implementation -----------------------------------------------------------------------------------------
@@ -127,6 +147,7 @@ public abstract class Heap<E> {
             }
             return this;
         }
+
     }
 
     // testing subject -------------------------------------------------------------------------------------------------

@@ -1,6 +1,6 @@
 package series.serie2;
 
-public class DCList<E> {
+public class DCList <E> {
 
     public Node<E> list;
     public int size;
@@ -13,7 +13,7 @@ public class DCList<E> {
     }
 
     // ins@head
-    public Node<E> ins(E e) {
+    public void ins(E e) {
         Node<E> x = new Node<E>();
         x.value = e;
         x.next = list.next;
@@ -21,16 +21,16 @@ public class DCList<E> {
         list.next = x;
         x.previous = list;
         size++;
-        return this.list;
+        //return this.list;
     }
 
     // remove@head
-    public Node<E> del(){
+    public void del(){
         Node<E> x = list.next;
         x.previous.next = x.next;
         x.next.previous = x.previous;
         size--;
-        return this.list;
+        //return this.list;
     }
 
     // peek the head

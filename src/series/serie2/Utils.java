@@ -5,57 +5,59 @@ import java.util.regex.*;
 
 public class Utils {
 
+	public static class Stack <E> {
 
-//    public static class Stack<E> {
-//
-//        Node<E> stk;
-//
-//        public Stack() {
-//            DCList<char> stk  = new DCList();
-//
-//            public void push(<E> e){
-//                stk.ins(e);
-//            }
-//
-//            public void pop(){
-//                stk.del();
-//            }
-//
-//            public <E> peek(){
-//                return stk.next.value;
-//            }
-//
-//        }
-//    }
+		public DCList<E> stk;
 
+		public Stack() {
+			stk = new DCList();
+		}
 
+		public void push(E e) {
+			stk.ins(e);
+		}
 
-    public static HashSet<Character> braces = new HashSet<Character>();
+		public void pop() {
+			stk.del();
+		}
 
-    static {
-        braces.add('{');
-        braces.add('}');
-        braces.add('[');
-        braces.add(']');
-        braces.add('(');
-        braces.add(')');
-    }
+		public E peek() {
+			return stk.list.next.value;
+		}
 
+		public int size(){
+		    return stk.size();
+        }
+
+		public String print(){
+		    return this.stk.toString();
+        }
+	}
 
 	public static boolean verifyPairing(String s) {
 		//throw new UnsupportedOperationException();
 
+        Stack<Character> stk = new Stack<>();
 		char[] array = s.toCharArray();
-		for (char c : array) {
-			System.out.println (c);
-			if(braces.contains(c)) System.out.println("-->"+c);
-		}
 
-		return true;
+		for (char c : array) {
+			System.out.print(c);
+			if(c == '{'|| c == '('|| c == '[') stk.push(c);
+            if((c == '}'|| c == ')'|| c == ']') && stk.size() == 0) return false;
+			if((c == '}'|| c == ')'|| c == ']') && stk.size() != 0) {
+			    if(c == '}' && stk.peek() == '{') stk.pop();
+                if(c == ')' && stk.peek() == '(') stk.pop();
+                if(c == ']' && stk.peek() == '[') stk.pop();
+            }
+		}
+        System.out.println();
+        System.out.println(stk.print());
+        return stk.size() == 0 ? true : false;
 	}
 
 	public static void main(String[] args){
-		String evalTrue = "{()()[()]{({[]})}}";
-		System.out.println(verifyPairing(evalTrue));
+		//String evalTrue = "{(..).(.)[()..]{({..[..]..})}..}";
+        String evalTrue ="..}{..";
+        System.out.println(verifyPairing(evalTrue));
 	}
 }

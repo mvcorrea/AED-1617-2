@@ -5,7 +5,7 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
 
-public abstract class Heap<E> {
+public abstract class Heap <E> {
 
     public LinkedList<E> heap;
     public Comparator<E> cmp;

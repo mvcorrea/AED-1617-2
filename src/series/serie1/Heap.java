@@ -81,6 +81,12 @@ public abstract class Heap <E> {
         heap.set(j, aux);
     }
 
+    public void addAllFromArray(E[] arr){
+        for (E i : arr){
+            this.offer(i);
+        }
+    }
+
     public E[] asArray() {
         //return (E[]) this.heap.toArray();
         return (E[]) this.heap.toArray();

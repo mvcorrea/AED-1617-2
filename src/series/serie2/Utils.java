@@ -1,8 +1,5 @@
 package series.serie2;
 
-import java.util.HashSet;
-import java.util.regex.*;
-
 public class Utils {
 
 	public static class Stack <E> {

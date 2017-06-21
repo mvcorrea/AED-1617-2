@@ -2,6 +2,7 @@ package series.serie1;
 
 //import java.util.Arrays;
 
+import java.util.Comparator;
 import java.util.NoSuchElementException;
 
 public class Arrays {
@@ -74,7 +75,7 @@ public class Arrays {
         return out;
     }
 
-    public static int median(int[] v, int l, int r) {
+    public static int median0(int[] v, int l, int r) {
         //throw new UnsupportedOperationException();
         Helper.qsort(v);
         //System.out.println(java.util.Arrays.toString(v));
@@ -87,6 +88,36 @@ public class Arrays {
         } else {                // odd sequence
             return v[nElmns/2];
         }
+    }
+
+    // http://www.programcreek.com/2015/01/leetcode-find-median-from-data-stream-java/
+    public static int median(int[] v, int l, int r) {
+        //throw new UnsupportedOperationException();
+
+        Comparator<Integer> cmp = (o1, o2) -> Integer.compare(o1, o2);
+        Heap.MaxHeap minh = new Heap.MaxHeap(cmp);
+        Heap.MinHeap maxh = new Heap.MinHeap(cmp);
+
+        //minh.addAllFromArray(v);
+
+        if(minh.size() == maxh.size()){ // even sequence
+            return ((int) minh.peek() + (int) maxh.peek())/2;
+        } else {
+            return (int) maxh.peek();
+        }
+
+
+//        Helper.qsort(v);
+//        //System.out.println(java.util.Arrays.toString(v));
+//        int nElmns = r - l + 1;
+//        if(nElmns < 1) return 0;                // empty
+//        if(nElmns == 1) return v[0];            // single
+//        if(nElmns == 2) return (v[0]+v[1])/2;   // 2 elements
+//        if (nElmns % 2 == 0) {  // even squence
+//            return (v[nElmns/2-1] + v[nElmns/2])/2;
+//        } else {                // odd sequence
+//            return v[nElmns/2];
+//        }
     }
 
     public static int greatestOccurrence(int[] v, int min, int max) {
@@ -112,5 +143,10 @@ public class Arrays {
 
         return maxPos;
     }
+
+
+
+
+
 
 }

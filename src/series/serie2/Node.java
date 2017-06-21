@@ -8,5 +8,6 @@ public class Node<E> {
 	public Node(){}
 	
 	public Node(E e){value=e;}
-	
+
+	public E get(){ return this.value; }
 }

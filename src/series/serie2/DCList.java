@@ -50,6 +50,12 @@ public class DCList <E> {
         return this.size;
     }
 
+    public void setSentinel(Node<E> nd){
+        list = nd;
+    }
+
+
+
     @Override
     public String toString() {
         Node<E> curr = list.next;

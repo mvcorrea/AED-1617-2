@@ -5,7 +5,7 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static series.serie2.Iterables.getValuesBetween;
+import static series.serie2.Iterables_.getValuesBetween;
 
 public class GetValuesBetweenTest extends IterablesTest {
 	private static final Iterable<Integer> SE = Collections.emptyList();

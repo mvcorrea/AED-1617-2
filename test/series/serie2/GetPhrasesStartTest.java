@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.*;
 
-import static series.serie2.Iterables.getPhrasesStart;
+import static series.serie2.Iterables_.getPhrasesStart;
 import static java.util.Collections.unmodifiableList;
 
 public class GetPhrasesStartTest extends IterablesTest {

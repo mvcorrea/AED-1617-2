@@ -5,7 +5,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class IncMedian_v0 {
+public class IncMedian_v0 { // utilizando o qsort
 
     public static int[] data = new int[0];
 
@@ -29,7 +29,7 @@ public class IncMedian_v0 {
     }
 
     public static void main(String[] args) throws IOException {
-        System.out.println("Problema AED - Serie 01");
+        System.out.println("Problema AED - Serie 01 v0");
         BufferedReader br = br = new BufferedReader(new InputStreamReader(System.in));
 
         while(true){

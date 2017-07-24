@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Comparator;
 
-public class IncMedian_v1 {
+public class IncMedian_v1 { // com um heap
 
     public static Comparator<Integer> cmp = (o1, o2) -> Integer.compare(o1, o2);
     public static Heap.MaxHeap<Integer> maxHeap = new Heap.MaxHeap(cmp);
@@ -61,7 +61,8 @@ public class IncMedian_v1 {
     }
 
     public static void main(String[] args) throws IOException {
-        System.out.println("Problema AED - Serie 01");
+        // java -cp "out/production/AED-Series" series.serie1.IncMedian_v1
+        System.out.println("Problema AED - Serie 01 v1");
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         while (true) {

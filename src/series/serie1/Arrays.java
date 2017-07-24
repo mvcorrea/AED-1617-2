@@ -5,6 +5,9 @@ package series.serie1;
 import java.util.Comparator;
 import java.util.NoSuchElementException;
 
+import static java.lang.StrictMath.abs;
+import static series.serie1.Arrays.add2Median;
+
 public class Arrays {
 
     public static int[] sumClosestToZero(int[] v) {
@@ -90,34 +93,34 @@ public class Arrays {
         }
     }
 
+    public static void add2Median(int i, Heap.MinHeap minh, Heap.MaxHeap maxh){
+        if(maxh.size() == 0 || i > (int) maxh.peek()) maxh.offer(i);  // split
+        else minh.offer(i);
+
+        if(minh.size() >= maxh.size()) maxh.offer(minh.poll());
+        else minh.offer(maxh.poll());
+    }
+
     // http://www.programcreek.com/2015/01/leetcode-find-median-from-data-stream-java/
     public static int median(int[] v, int l, int r) {
         //throw new UnsupportedOperationException();
+        if(v.length == 1) return v[0];
+        if(v.length == 2) return (v[0]+v[1])/2;
 
         Comparator<Integer> cmp = (o1, o2) -> Integer.compare(o1, o2);
-        Heap.MaxHeap minh = new Heap.MaxHeap(cmp);
-        Heap.MinHeap maxh = new Heap.MinHeap(cmp);
+        Heap.MaxHeap maxh = new Heap.MaxHeap(cmp);
+        Heap.MinHeap minh = new Heap.MinHeap(cmp);
 
-        //minh.addAllFromArray(v);
+        for(int i : v) add2Median(i, minh, maxh);
+
+//        System.out.println(minh.toString());
+//        System.out.println(maxh.toString());
 
         if(minh.size() == maxh.size()){ // even sequence
             return ((int) minh.peek() + (int) maxh.peek())/2;
         } else {
-            return (int) maxh.peek();
+            return (int) minh.peek();
         }
-
-
-//        Helper.qsort(v);
-//        //System.out.println(java.util.Arrays.toString(v));
-//        int nElmns = r - l + 1;
-//        if(nElmns < 1) return 0;                // empty
-//        if(nElmns == 1) return v[0];            // single
-//        if(nElmns == 2) return (v[0]+v[1])/2;   // 2 elements
-//        if (nElmns % 2 == 0) {  // even squence
-//            return (v[nElmns/2-1] + v[nElmns/2])/2;
-//        } else {                // odd sequence
-//            return v[nElmns/2];
-//        }
     }
 
     public static int greatestOccurrence(int[] v, int min, int max) {

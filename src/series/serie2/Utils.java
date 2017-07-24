@@ -2,11 +2,11 @@ package series.serie2;
 
 public class Utils {
 
-	public static class Stack <E> {
+	public static class STack <E> {
 
 		public DCList<E> stk;
 
-		public Stack() {
+		public STack() {
 			stk = new DCList();
 		}
 
@@ -34,7 +34,7 @@ public class Utils {
 	public static boolean verifyPairing(String s) {
 		//throw new UnsupportedOperationException();
 
-        Stack<Character> stk = new Stack<>();
+        STack<Character> stk = new STack<>();
 		char[] array = s.toCharArray();
 
 		for (char c : array) {
@@ -49,12 +49,13 @@ public class Utils {
 		}
         System.out.println();
         System.out.println(stk.print());
+		System.out.println();
         return stk.size() == 0 ? true : false;
 	}
 
 	public static void main(String[] args){
-		//String evalTrue = "{(..).(.)[()..]{({..[..]..})}..}";
-        String evalTrue ="..}{..";
+		String evalTrue = "{(..).(.)[()..]{({..[..]..})}..}";
+        //String evalTrue ="..}{..";
         System.out.println(verifyPairing(evalTrue));
 	}
 }

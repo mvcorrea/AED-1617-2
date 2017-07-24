@@ -16,7 +16,7 @@ public abstract class Heap <E> {
     }
 
     // operations
-    public void buildHeap(int n) {
+    public void buildHeap(int n) { //maxsize
         int parent = parent(n);
         while (parent >= 0) {
             this.heapify(parent--, heap.size());
@@ -32,7 +32,7 @@ public abstract class Heap <E> {
         return this;
     }
 
-    public E peek() throws NoSuchElementException { // obtem o elemento mais prioritario -> O(1)
+    public E peek() throws NoSuchElementException { // obtem o elemento mais prioritario "noremove" -> O(1)
         if (heap.size() == 0) throw new NoSuchElementException("no such element");
         return heap.peek();
     }
@@ -48,10 +48,7 @@ public abstract class Heap <E> {
         return toReturn;
     }
 
-//    public void update(int n) { // actualiza a prioridade de um elemento na fila prioritaria -> O(logN)
-//        int idx =
-//    }
-
+//    public void update(int n) // actualiza a prioridade de um elemento na fila prioritaria -> O(logN)
 
     // to implement
     abstract public Heap<E> heapify(int i, int n);
@@ -154,6 +151,8 @@ public abstract class Heap <E> {
             return this;
         }
 
+
+
     }
 
     // testing subject -------------------------------------------------------------------------------------------------
@@ -179,9 +178,7 @@ public abstract class Heap <E> {
         myHeap.offer(2);
         myHeap.offer(6);
 
-        System.out.println(myHeap.peek());
-        //System.out.println(myHeap.toString());
-        //myHeap.buildHeap(myHeap.size()-1);
+        System.out.println(myHeap.peek());          // head (no removal)
         System.out.println(myHeap.toString());
         System.out.println("removed: " + myHeap.poll().toString());
         System.out.println(myHeap.toString());
